@@ -184,6 +184,7 @@ public class AddNote extends AppCompatActivity {
             }
         });
         //play is not working presently because of the stop button
+        // this comment is for hit
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) throws IllegalArgumentException,SecurityException,IllegalStateException {
