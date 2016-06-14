@@ -183,6 +183,7 @@ public class AddNote extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_LONG).show();
             }
         });
+        //play is not working presently because of the stop button
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) throws IllegalArgumentException,SecurityException,IllegalStateException {
