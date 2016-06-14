@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.notepad.AddNote"
+    tools:showIn="@layout/activity_add_note">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/titles"
+        android:hint="Title"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/captureselection" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/Contents"
+        android:layout_below="@+id/titles"
+        android:layout_alignStart="@+id/titles"
+        android:hint="write text here"
+        android:minLines="3" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_from_gallery"
+        android:text="Gallery"
+        android:layout_below="@+id/Contents"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="38dp" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/galleryselection"
+        android:layout_marginRight="30dp"
+        android:layout_alignTop="@+id/add_from_gallery"
+        android:layout_toStartOf="@+id/cancel1" />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel1"
+        android:layout_alignBottom="@+id/galleryselection"
+        android:layout_alignTop="@+id/galleryselection"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/capture_add"
+        android:text="Capture"
+        android:layout_below="@+id/add_from_gallery"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/captureselection"
+        android:layout_marginRight="30dp"
+        android:layout_alignBottom="@+id/capture_add"
+        android:layout_toEndOf="@+id/capture_add" />
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel2"
+        android:layout_alignBottom="@+id/captureselection"
+        android:layout_alignTop="@+id/captureselection"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/audio_add"
+        android:text="AUDIO"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/capture_add"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/audioselection"
+        android:layout_marginRight="30dp"
+        android:layout_alignBottom="@+id/audio_add"
+        android:layout_alignStart="@+id/captureselection" />
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel3"
+        android:layout_alignBottom="@+id/audioselection"
+        android:layout_alignTop="@+id/audioselection"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAVE"
+        android:id="@+id/savebutton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RECORD"
+        android:id="@+id/recordbutton"
+        android:layout_above="@+id/savebutton"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:id="@+id/audiorecordselection"
+        android:layout_marginRight="30dp"
+        android:layout_above="@+id/savebutton"
+        android:layout_toEndOf="@+id/recordbutton" />
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/cancel4"
+        android:layout_alignBottom="@+id/audiorecordselection"
+        android:layout_alignTop="@+id/audiorecordselection"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="STOP"
+        android:id="@+id/stopbutton"
+        android:layout_above="@+id/savebutton"
+        android:layout_toEndOf="@+id/audiorecordselection" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="play"
+        android:id="@+id/playbutton"
+        android:layout_above="@+id/stopbutton"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
