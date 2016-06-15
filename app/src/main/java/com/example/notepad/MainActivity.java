@@ -1,4 +1,5 @@
 package com.example.notepad;
+
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,19 +12,23 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Vector;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
-    private String names[] = {"Add a Note",
-            "HTML",
-            "CSS",
-            "Java Script",
-            "Wordpress"
-    };
+    private Vector<String> name = new Vector<>();
+//    private String names[] = {"Add a Note",
+//            "HTML",
+//            "CSS",
+//            "Java Script",
+//            "Wordpress"
+//    };
 
 
-//      private String []names = new String [20];
+    private String[] names = new String[20];
 //
 
     private String desc[] = {"Easy way to store data",
@@ -41,17 +46,23 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.wp
     };
 
+    private ArrayList<ModelNotepad> listNotepad = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        for(int i=0;i<5;i++)
-//        {
-//            names[i]="asdfsaf";
-//        }
-
-        CustomList customList = new CustomList(this, names, desc, imageid);
+        for (int i = 0; i < 5; i++) {
+            name.add("asdfsaf");
+            names[i] = "asdfsaf";
+            Log.e("name", names[i]);
+        }
+        listNotepad.add(new ModelNotepad("wishy", "dev", R.drawable.addt1));
+        listNotepad.add(new ModelNotepad("wishy 1", "dev 1", R.drawable.html));
+        listNotepad.add(new ModelNotepad("wishy 2", "dev 2", R.drawable.css));
+        listNotepad.add(new ModelNotepad("wishy 3", "dev 3", R.drawable.js));
+//        CustomList customList = new CustomList(this, name, desc, imageid);
+        CustomList customList = new CustomList(this, listNotepad);
 //        names[5]="error";
 //        desc[5]="description goes here";
 //        imageid[5]=R.drawable.html;
@@ -62,11 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getApplicationContext(),"You Clicked "+names[i],Toast.LENGTH_SHORT).show();
-                if(names[i].equals("Add a Note"))
-                {
-                    Intent intd=new Intent(MainActivity.this,AddNote.class);
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Toast.makeText(getApplicationContext(), "You Clicked " + names[position], Toast.LENGTH_SHORT).show();
+                if (position == 0) {
+                    Intent intd = new Intent(MainActivity.this, AddNote.class);
                     startActivity(intd);
                 }
             }

@@ -38,7 +38,7 @@ public class AddNote extends AppCompatActivity {
     Boolean galleryimageflag = false;
     Boolean captureimageflag = false;
     Boolean audioflag = false;
-    Boolean recordaudioflag =false;
+    Boolean recordaudioflag = false;
     private static final int SELECTED_PICTURE = 2;
     private static final int TAKE_IMAGE = 1;
     private static final int SELECTED_AUDIO = 3;
@@ -46,8 +46,8 @@ public class AddNote extends AppCompatActivity {
     String filepath = null;
     String selectedImagePath = null;
     Uri uriSound = null;
-    String soundfile=null;
-    Button play,stop,record;
+    String soundfile = null;
+    Button play, stop, record;
     private MediaRecorder myAudioRecorder;
     private String outputFile = null;
 
@@ -72,15 +72,15 @@ public class AddNote extends AppCompatActivity {
                 db.addContact(new Contact(title.getText().toString(), filepath, contents.getText().toString(), filepath, selectedImagePath, soundfile));
                 List<Contact> contacts = db.getAllContacts();
                 for (Contact cn : contacts) {
-                    String log = "Id: " + cn.get_id() + " ,Name: " + cn.get_name() + " ,AUDIOS: " + cn.get_audios() + " ,CAPTURED_IMAGE: " + cn.get_captured_image() + " ,GALLERY: " + cn.get_gallery_image()+ " ,PHOTO: " + cn.get_photo()+ "\n";
+                    String log = "Id: " + cn.get_id() + " ,Name: " + cn.get_name() + " ,AUDIOS: " + cn.get_audios() + " ,CAPTURED_IMAGE: " + cn.get_captured_image() + " ,GALLERY: " + cn.get_gallery_image() + " ,PHOTO: " + cn.get_photo() + "\n";
                     Log.e("hhh", log);
                 }
                 Intent intent = new Intent(v.getContext(), SeeNote.class);
                 // send all the contents through intent to SEeNote.java
                 //build a good UI for displaying the note
                 //
-                intent.putExtra("name",title.getText().toString());
-              //  intent.putExtra("");
+                intent.putExtra("name", title.getText().toString());
+                //  intent.putExtra("");
                 startActivity(intent);
 
 
@@ -88,12 +88,12 @@ public class AddNote extends AppCompatActivity {
         });
 
         add_from_gallery = (Button) findViewById(R.id.add_from_gallery);
-       // final LinearLayout mViews = (LinearLayout) findViewById(R.id.moreViews);
+        // final LinearLayout mViews = (LinearLayout) findViewById(R.id.moreViews);
         add_from_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-               // Button b1 = new Button(AddNote.this);
+                // Button b1 = new Button(AddNote.this);
                 //b1.setText("add another");
                 //b1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
                 //mViews.addView(b1);
@@ -121,15 +121,17 @@ public class AddNote extends AppCompatActivity {
             }
         });
 // for recording audio
-        final ImageView audiorecorder=(ImageView)findViewById(R.id.audiorecordselection);
+        final ImageView audiorecorder = (ImageView) findViewById(R.id.audiorecordselection);
 
-        stop=(Button)findViewById(R.id.stopbutton);
-        play=(Button)findViewById(R.id.playbutton);
+        stop = (Button) findViewById(R.id.stopbutton);
+        play = (Button) findViewById(R.id.playbutton);
         stop.setEnabled(false);
         play.setEnabled(false);
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";;
-        record=(Button)findViewById(R.id.recordbutton);
-        myAudioRecorder=new MediaRecorder();
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+
+        Log.e("file", outputFile);
+        record = (Button) findViewById(R.id.recordbutton);
+        myAudioRecorder = new MediaRecorder();
         myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
@@ -140,9 +142,7 @@ public class AddNote extends AppCompatActivity {
                 try {
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -161,9 +161,7 @@ public class AddNote extends AppCompatActivity {
                     myAudioRecorder.stop();
                     myAudioRecorder.release();
                     myAudioRecorder = null;
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     //Log.e("error here",e.getMessage());
                 }
                 stop.setEnabled(false);
@@ -180,29 +178,25 @@ public class AddNote extends AppCompatActivity {
 
                     }
                 });
-                Toast.makeText(getApplicationContext(), "Audio recorded successfully",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_LONG).show();
             }
         });
         //play is not working presently because of the stop button
         // this comment is for hit
         play.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) throws IllegalArgumentException,SecurityException,IllegalStateException {
+            public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
                 MediaPlayer m = new MediaPlayer();
 
                 try {
                     m.setDataSource(outputFile);
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 try {
                     m.prepare();
-                }
-
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -248,7 +242,7 @@ public class AddNote extends AppCompatActivity {
         }
         if (requestCode == SELECTED_AUDIO && resultCode == RESULT_OK) {
             uriSound = data.getData();
-            soundfile=uriSound.toString();
+            soundfile = uriSound.toString();
             // EditText song=(EditText)findViewById(R.id.song);
             // song.setText(uriSound.toString());
             //play(this, uriSound);
