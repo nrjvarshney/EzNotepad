@@ -21,7 +21,7 @@
         android:id="@+id/titles"
         android:hint="Title"
         android:layout_alignParentTop="true"
-        android:layout_alignEnd="@+id/captureselection" />
+        android:layout_toStartOf="@+id/stopbutton" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -148,13 +148,5 @@
         android:id="@+id/stopbutton"
         android:layout_above="@+id/savebutton"
         android:layout_toEndOf="@+id/audiorecordselection" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="play"
-        android:id="@+id/playbutton"
-        android:layout_above="@+id/stopbutton"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

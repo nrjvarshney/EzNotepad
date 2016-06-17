@@ -23,6 +23,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.List;
@@ -47,9 +49,12 @@ public class AddNote extends AppCompatActivity {
     String selectedImagePath = null;
     Uri uriSound = null;
     String soundfile = null;
-    Button play, stop, record;
+    Button stop, record;
     private MediaRecorder myAudioRecorder;
     private String outputFile = null;
+    ImageView ims;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
 
 
     @Override
@@ -57,52 +62,40 @@ public class AddNote extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
-        // code for database
         final DBHelper db = new DBHelper(this);
-
-        //code for database ends
 
         saves = (Button) findViewById(R.id.savebutton);
         saves.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 title = (EditText) findViewById(R.id.titles);
                 contents = (EditText) findViewById(R.id.Contents);
-                db.addContact(new Contact(title.getText().toString(), filepath, contents.getText().toString(), filepath, selectedImagePath, soundfile));
+                radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+                radioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+
+                String selectedId = radioButton.getText().toString();
+                String pho = "R.drawable." + selectedId;
+                db.addContact(new Contact(title.getText().toString(), pho, contents.getText().toString(), filepath, selectedImagePath, soundfile));
                 List<Contact> contacts = db.getAllContacts();
                 for (Contact cn : contacts) {
-                    String log = "Id: " + cn.get_id() + " ,Name: " + cn.get_name() + " ,AUDIOS: " + cn.get_audios() + " ,CAPTURED_IMAGE: " + cn.get_captured_image() + " ,GALLERY: " + cn.get_gallery_image() + " ,PHOTO: " + cn.get_photo() + "\n";
+                    String log = "Id: " + cn.get_id() + " ,Name: " + cn.get_name() + " ,AUDIOS: " + cn.get_audios() + " ,CAPTURED_IMAGE: " + cn.get_captured_image() + " ,GALLERY: " + cn.get_gallery_image() + " ,PHOTO: " + cn.get_photo() + " deletevar :" + cn.get_delelte_var() + "\n";
                     Log.e("hhh", log);
                 }
-                Intent intent = new Intent(v.getContext(), SeeNote.class);
-                // send all the contents through intent to SEeNote.java
-                //build a good UI for displaying the note
-                //
-                intent.putExtra("name", title.getText().toString());
-                //  intent.putExtra("");
+                Intent intent = new Intent(v.getContext(), MainActivity.class);
                 startActivity(intent);
-
-
             }
         });
 
         add_from_gallery = (Button) findViewById(R.id.add_from_gallery);
-        // final LinearLayout mViews = (LinearLayout) findViewById(R.id.moreViews);
         add_from_gallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // Button b1 = new Button(AddNote.this);
-                //b1.setText("add another");
-                //b1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                //mViews.addView(b1);
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, SELECTED_PICTURE);
-
-
             }
         });
+
         captured = (Button) findViewById(R.id.capture_add);
         captured.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,13 +113,11 @@ public class AddNote extends AppCompatActivity {
                 startActivityForResult(intent, SELECTED_AUDIO);
             }
         });
-// for recording audio
+
         final ImageView audiorecorder = (ImageView) findViewById(R.id.audiorecordselection);
 
         stop = (Button) findViewById(R.id.stopbutton);
-        play = (Button) findViewById(R.id.playbutton);
         stop.setEnabled(false);
-        play.setEnabled(false);
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
 
         Log.e("file", outputFile);
@@ -165,7 +156,6 @@ public class AddNote extends AppCompatActivity {
                     //Log.e("error here",e.getMessage());
                 }
                 stop.setEnabled(false);
-                play.setEnabled(true);
                 audiorecorder.setImageResource(R.drawable.sound);
                 ImageView cancel_record = (ImageView) findViewById(R.id.cancel4);
                 cancel_record.setImageResource(R.drawable.cancel);
@@ -181,30 +171,9 @@ public class AddNote extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Audio recorded successfully", Toast.LENGTH_LONG).show();
             }
         });
-        //play is not working presently because of the stop button
+        //
+        // is not working presently because of the stop button
         // this comment is for hit
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) throws IllegalArgumentException, SecurityException, IllegalStateException {
-                MediaPlayer m = new MediaPlayer();
-
-                try {
-                    m.setDataSource(outputFile);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    m.prepare();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                m.start();
-                Toast.makeText(getApplicationContext(), "Playing audio", Toast.LENGTH_LONG).show();
-            }
-        });
-
 
     }
 
@@ -212,25 +181,25 @@ public class AddNote extends AppCompatActivity {
         // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
 
-        // taking imag
+
         if (requestCode == TAKE_IMAGE && resultCode == RESULT_OK) {
-            Bitmap bp = (Bitmap) data.getExtras().get("data");
-            Drawable d = new BitmapDrawable(getResources(), bp);
+            Bitmap bps = (Bitmap) data.getExtras().get("data");
+            Drawable ds = new BitmapDrawable(getResources(), bps);
             capture_view = (ImageView) findViewById(R.id.captureselection);
-            capture_view.setImageBitmap(bp);
+            capture_view.setImageBitmap(bps);
             captureimageflag = true;
-            //
             Uri selectedImageUri = data.getData();
             selectedImagePath = getRealPathFromURI(selectedImageUri);
-            //
-            ImageView cancel_capture = (ImageView) findViewById(R.id.cancel2);
+            final ImageView cancel_capture = (ImageView) findViewById(R.id.cancel2);
             cancel_capture.setImageResource(R.drawable.cancel);
             cancel_capture.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     captureimageflag = false;
-                    Bitmap b = null;
-                    capture_view.setImageBitmap(b);
+                    Bitmap bq = null;
+                    selectedImagePath = null;
+                    capture_view.setImageBitmap(bq);
+                    cancel_capture.setImageBitmap(bq);
 
                 }
             });
@@ -243,20 +212,19 @@ public class AddNote extends AppCompatActivity {
         if (requestCode == SELECTED_AUDIO && resultCode == RESULT_OK) {
             uriSound = data.getData();
             soundfile = uriSound.toString();
-            // EditText song=(EditText)findViewById(R.id.song);
-            // song.setText(uriSound.toString());
-            //play(this, uriSound);
             audioflag = true;
             audio_view = (ImageView) findViewById(R.id.audioselection);
             audio_view.setImageResource(R.drawable.sound);
-            ImageView cancel_audio = (ImageView) findViewById(R.id.cancel3);
+            final ImageView cancel_audio = (ImageView) findViewById(R.id.cancel3);
             cancel_audio.setImageResource(R.drawable.cancel);
             cancel_audio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     audioflag = false;
-                    Bitmap b = null;
-                    audio_view.setImageBitmap(b);
+                    Bitmap bi = null;
+                    audio_view.setImageBitmap(bi);
+                    soundfile = null;
+                    cancel_audio.setImageBitmap(bi);
 
 
                 }
@@ -283,13 +251,12 @@ public class AddNote extends AppCompatActivity {
             filepath = cursor.getString(columnIndex);
             cursor.close();
 
-            im = (ImageView) findViewById(R.id.galleryselection);
-            im.setImageResource(R.drawable.imaget);
-            Bitmap yourSelectedImage = null;
-            yourSelectedImage = BitmapFactory.decodeFile(filepath);
-            im.setImageBitmap(yourSelectedImage);
+            ims = (ImageView) findViewById(R.id.galleryselection);
+            ims.setImageResource(R.drawable.imaget);
+            Bitmap yourSelectedImages = null;
+            yourSelectedImages = BitmapFactory.decodeFile(filepath);
+            ims.setImageBitmap(yourSelectedImages);
 
-//            Drawable d = new BitmapDrawable(yourSelectedImage);
             Toast.makeText(getApplicationContext(), "image selected", Toast.LENGTH_LONG).show();
 
             final ImageView cancel1 = (ImageView) findViewById(R.id.cancel1);
@@ -298,9 +265,10 @@ public class AddNote extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     galleryimageflag = false;
-                    //                   cancel1.setBackgroundColor(Color.WHITE);
                     Bitmap b = null;
-                    im.setImageBitmap(b);
+                    ims.setImageBitmap(b);
+                    filepath = null;
+                    cancel1.setImageBitmap(b);
 
 
                 }
@@ -311,19 +279,6 @@ public class AddNote extends AppCompatActivity {
 
     }
 
-    private void play(Context context, Uri uri) {
-
-        try {
-            MediaPlayer mp = new MediaPlayer();
-            mp.setDataSource(context, uri);
-            mp.prepare();
-
-            mp.start();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 
     public String getRealPathFromURI(Uri contentUri) {
         try {
@@ -335,6 +290,16 @@ public class AddNote extends AppCompatActivity {
         } catch (Exception e) {
             return contentUri.getPath();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        Intent intent = new Intent(Intent.ACTION_MAIN);
+//        intent.addCategory(Intent.CATEGORY_HOME);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 

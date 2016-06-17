@@ -191,5 +191,9 @@ class DBHelper extends SQLiteOpenHelper {
         // return count
         return cursor.getCount();
     }
+    public void deleteAll(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from "+ TABLE_CONTACTS);
+    }
 
 }

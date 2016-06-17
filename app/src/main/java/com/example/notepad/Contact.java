@@ -23,6 +23,8 @@ public class Contact {
         this._photo=_photo;
         this._gallery_image=_gallery_image;
         this._captured_image=_captured_image;
+        this._delelte_var=_delelte_var;
+        this._recycle_delete=_recycle_delete;
 
     }
 
